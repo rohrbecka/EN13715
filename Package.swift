@@ -5,6 +5,7 @@ import PackageDescription
 
 let package = Package(
     name: "EN13715",
+    platforms: [.macOS(.v12), .iOS(.v15)],
     products: [
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
@@ -22,7 +23,7 @@ let package = Package(
             name: "EN13715",
             dependencies: []),
         .testTarget(
-            name: "EN13715Tests",
+            name: "EN13715Tests", 
             dependencies: ["EN13715"]),
     ]
 )
