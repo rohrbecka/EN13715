@@ -36,8 +36,40 @@ internal enum Sampler {
 
 
 
-    public static func arc(from start: CGPoint, to end: CGPoint, center: CGPoint, radius: Double, resolution: Double) -> [CGPoint] {
-        [CGPoint]()
+    public static func arc(from start: CGPoint,
+                           to end: CGPoint,
+                           center: CGPoint,
+                           radius: Double,
+                           negativeDirection: Bool = false,
+                           resolution: Double) -> [CGPoint] {
+        let startAngleRad = angle(of: start, inRespectTo: center)
+        let endAngleRad = angle(of: end, inRespectTo: center)
+        var arcLength = negativeDirection
+            ? (startAngleRad - endAngleRad) * radius
+            : (endAngleRad - startAngleRad) * radius
+        if arcLength < 0 {
+            arcLength = arcLength + 2 * Double.pi
+        }
+        arcLength = arcLength.truncatingRemainder(dividingBy: 360.0)
+        let numberOfPoints = Int (arcLength / resolution) + 1
+        let result = (0..<numberOfPoints)
+            .map {
+                let angle: Double
+                if negativeDirection {
+                    angle = endAngleRad + Double(numberOfPoints - $0 - 1) * resolution / radius
+                } else {
+                    angle = endAngleRad - Double(numberOfPoints - $0 - 1) * resolution / radius
+                }
+                return CGPoint(x: center.x + cos(angle) * radius,
+                               y: center.y + sin(angle) * radius)
+            }
+
+        if
+            let first = result.first,
+            distance(from: first, to: start) < 0.000000001 {
+            return Array(result.dropFirst())
+        }
+        return result
     }
 
 
@@ -50,6 +82,26 @@ internal enum Sampler {
         let xDist = p1.x - p0.x
         let yDist = p1.y - p0.y
         return sqrt(yDist*yDist + xDist*xDist)
+    }
+
+
+
+    private static func angle(of point: CGPoint, inRespectTo center: CGPoint) -> Double {
+        let dx = point.x - center.x
+        let dy = point.y - center.y
+        if dx == 0 && dy > 0 {
+            return Double.pi / 2.0
+        } else if dx == 0 && dy < 0 {
+            return Double.pi / 2.0
+        } else {
+            let angle = atan(dy / dx)
+            if dx > 0 {
+                return angle
+            } else{
+                return angle + Double.pi
+            }
+        }
+        return 0
     }
 }
 

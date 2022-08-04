@@ -4,13 +4,13 @@ import Foundation
 /// The Profiles as defined in EN 13715:2020-10.
 public enum EN13715 {
     /// The 1/40 profile.
-    case oneTo40(h: Double, e: Double, _ slopePercent: Double)
+    case oneTo40(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
 
     /// The S1002 profile.
-    case S1002(h: Double, e: Double, _ slopePercent: Double)
+    case S1002(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
 
     /// The EPS profile.
-    case EPS(h: Double, e: Double, _ slopePercent: Double)
+    case EPS(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
 }
 
 
@@ -19,11 +19,11 @@ extension EN13715: CustomStringConvertible {
     /// The profile name according EN 13715.
     public var description: String {
         switch self {
-        case .oneTo40(let h, let e, let slopePercent):
+        case .oneTo40(let h, let e, let slopePercent, _):
             return "EN 13715 — 1/40 / \(parameterString(h: h, e: e, slopePercent))"
-        case .S1002(let h, let e, let slopePercent):
+        case .S1002(let h, let e, let slopePercent, _):
             return "EN 13715 — S1002 / \(parameterString(h: h, e: e, slopePercent))"
-        case .EPS(let h, let e, let slopePercent):
+        case .EPS(let h, let e, let slopePercent, _):
             return "EN 13715 — EPS / \(parameterString(h: h, e: e, slopePercent))"
         }
     }
