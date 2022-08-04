@@ -101,7 +101,6 @@ internal enum Sampler {
                 return angle + Double.pi
             }
         }
-        return 0
     }
 }
 
