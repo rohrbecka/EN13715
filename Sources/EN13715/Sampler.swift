@@ -73,6 +73,11 @@ internal enum Sampler {
     }
 
 
+
+    public static func resample(_ source: [CGPoint], resolution: Double) -> [CGPoint] {
+        return source // TODO: implement
+    }
+
     /// Calculates the distance betweem two ``CGPoint``s assuming a cartesian co-ordinate system.
     ///
     /// - Parameter p0: The first point.

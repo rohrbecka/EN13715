@@ -231,15 +231,5 @@ final class FlangeTests: XCTestCase {
 
 
 
-    func testProfile() {
-        let sut = Flange.init(e: 32, h: 28)
-        let points = sut.profile(resolution: 0.5)
-        let formatter = NumberFormatter()
-        formatter.minimumFractionDigits = 3
-        formatter.maximumFractionDigits = 3
-        for point in points {
-            print("\(formatter.string(from: NSNumber(value: point.x)) ?? "")\t\(formatter.string(from: NSNumber(value: point.y)) ?? "")")
-        }
-    }
 
 }

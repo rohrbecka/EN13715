@@ -17,16 +17,16 @@ import Foundation
 ///
 /// The name of internal variables, especially the points defined in the standard are written as they are shown in the
 /// standard in respect to capitalisation.
-struct Flange {
+internal struct Flange {
 
     /// The width of the flange in mm. Defined in a range of 28.5 to 32.5.
-    let e: Double
+    public let e: Double
 
     /// The height of the flange in mm. Defined in a range of 28 to 32 mm.
-    let h: Double
+    public let h: Double
 
     /// The reduction of flange width in respect to a 32.5 mm flange width.
-    let de: Double
+    public let de: Double
 
     /// The point D1, which limits the flange are towards the running surface.
     internal let D1: CGPoint
@@ -73,7 +73,7 @@ struct Flange {
     /// - Parameters:
     ///   - e: The flange width in mm.
     ///   - h: The flange height in mm.
-    init(e: Double, h: Double) {
+    public init(e: Double, h: Double) {
         self.e = e
         self.h = h
 

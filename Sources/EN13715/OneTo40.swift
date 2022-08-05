@@ -20,50 +20,49 @@ import Foundation
 internal struct OneTo40 {
 
     /// The width of the flange in mm. Defined in a range of 28.5 to 32.5.
-    let e: Double
+    public let e: Double
 
-    let slopePercent: Double
+    public let slopePercent: Double
 
-    let wheelWidth: Double
+    public let wheelWidth: Double
 
     /// The reduction of flange width in respect to a 32.5 mm flange width.
-    let de: Double
+    internal let de: Double
 
     /// The center of the 36-mm-radius between points ``D1a`` and ``C11a``.
-    let Jm: CGPoint
+    internal let Jm: CGPoint
 
     /// The border to the ``Flange`` area.
-    let D1: CGPoint
+    internal let D1: CGPoint
 
     /// The end of the 13 mm flange radius, starting in the flange area.
-    let D1a: CGPoint
+    internal let D1a: CGPoint
 
     /// The center of the 13 mm flange radius.
-    let Dm: CGPoint
+    internal let Dm: CGPoint
 
 
-    let C1a: CGPoint
+    internal let C1a: CGPoint
 
     /// The limit between the 36-mm-radius and the 1:40 running surface.
-    let C11a: CGPoint
+    internal let C11a: CGPoint
 
 
-    let T1: CGPoint
+    internal let T1: CGPoint
 
-    let D0: CGPoint
+    internal let D0: CGPoint
 
     /// The beginning of the outer slope.
-    let B1a: CGPoint
-
+    internal let B1a: CGPoint
 
     /// The beginning of the 5 x 5 mm chamfer 5 mm away from the outer wheel surface.
-    let A1: CGPoint
+    internal let A1: CGPoint
 
     /// The end of the 5 x 5 mm chamfer on the outer wheel surface.
-    let I: CGPoint
+    internal let I: CGPoint
 
 
-    init(e: Double, slopePercent: Double, wheelWidth: Double) {
+    public init(e: Double, slopePercent: Double, wheelWidth: Double) {
         self.e = e
         self.slopePercent = slopePercent
         self.wheelWidth = wheelWidth
@@ -83,5 +82,61 @@ internal struct OneTo40 {
         self.B1a = CGPoint(x: 35.0, y: -0.875)
         self.A1 = CGPoint(x: wheelWidth - 70.0 - 5.0, y: B1a.y - slopePercent/100.0 * (wheelWidth - 110.0))
         self.I = CGPoint(x: wheelWidth - 70.0, y: A1.y - 5.0)
+    }
+}
+
+
+// MARK: Calculation of the profile points
+extension OneTo40 {
+    internal func profile(resolution: Double) -> [CGPoint] {
+        flangeRadius(resolution: resolution)
+        + transitionRadius(resolution: resolution)
+        + innerRunningSurface(resolution: resolution)
+        + TD0(resolution: resolution)
+        + outerRunningSurface(resolution: resolution)
+        + slope(resolution: resolution)
+        + chamfer(resolution: resolution)
+        + wheelFront(resolution: resolution)
+    }
+
+
+    private func flangeRadius(resolution: Double) -> [CGPoint] {
+        Sampler.arc(from: D1, to: D1a, center: Dm, radius: 13.0, resolution: resolution)
+    }
+
+
+
+    private func transitionRadius(resolution: Double) -> [CGPoint] {
+        Sampler.arc(from: D1a, to: C11a, center: Jm, radius: 36.0, resolution: resolution)
+    }
+
+
+    private func innerRunningSurface(resolution: Double) -> [CGPoint] {
+        Sampler.straightLine(from: C11a, to: T1, resolution: resolution)
+    }
+
+
+    private func TD0(resolution: Double) -> [CGPoint] {
+        Sampler.straightLine(from: T1, to: D0, resolution: resolution)
+    }
+
+
+    private func outerRunningSurface(resolution: Double) -> [CGPoint] {
+        Sampler.straightLine(from: D0, to: B1a, resolution: resolution)
+    }
+
+
+    private func slope(resolution: Double) -> [CGPoint] {
+        Sampler.straightLine(from: B1a, to: A1, resolution: resolution)
+    }
+
+
+    private func chamfer(resolution: Double) -> [CGPoint] {
+        Sampler.straightLine(from: A1, to: I, resolution: resolution)
+    }
+
+
+    private func wheelFront(resolution: Double) -> [CGPoint] {
+        Sampler.straightLine(from: I, to: CGPoint(x: I.x, y: I.y-10), resolution: resolution)
     }
 }

@@ -12,4 +12,16 @@ final class EN13715Tests: XCTestCase {
         let eps = EN13715.EPS(h: 32, e: 28.5, 10)
         XCTAssertEqual(eps.description, "EN 13715 — EPS / h32 / e28,5 / 10 %")
     }
+
+
+    func testOneTo40() {
+        let oneTo40 = EN13715.oneTo40(h: 30, e: 32.5, 10.0, wheelWidth: 140)
+        let points = oneTo40.profile()
+        let formatter = NumberFormatter()
+        formatter.minimumFractionDigits = 3
+        formatter.maximumFractionDigits = 3
+        for point in points {
+            print("\(formatter.string(from: NSNumber(value: point.x)) ?? "")\t\(formatter.string(from: NSNumber(value: point.y)) ?? "")")
+        }
+    }
 }

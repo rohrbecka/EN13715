@@ -39,3 +39,23 @@ extension EN13715: CustomStringConvertible {
         FloatingPointFormatStyle.number.precision(.fractionLength(0...1))
     }
 }
+
+
+
+extension EN13715 {
+    public func profile(resolution: Double = 0.5) -> [CGPoint] {
+        switch self {
+        case .oneTo40(let h, let e, let slope, let wheelWidth):
+            let flange = Flange(e: e, h: h)
+            let runningSurface = OneTo40(e: e, slopePercent: slope, wheelWidth: wheelWidth)
+            return flange.profile(resolution: resolution) + runningSurface.profile(resolution: resolution)
+        case .S1002(let h, let e, let slope, let wheelWidth):
+            let flange = Flange(e: e, h: h)
+            return flange.profile(resolution: resolution)
+        case .EPS(let h, let e, let slope, let wheelWidth):
+            let flange = Flange(e: e, h: h)
+            return flange.profile(resolution: resolution)
+        }
+    }
+
+}
