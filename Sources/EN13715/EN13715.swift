@@ -7,10 +7,10 @@ public enum EN13715 {
     case oneTo40(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
 
     /// The S1002 profile.
-    case S1002(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
+    case s1002(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
 
     /// The EPS profile.
-    case EPS(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
+    case eps(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
 }
 
 
@@ -21,9 +21,9 @@ extension EN13715: CustomStringConvertible {
         switch self {
         case .oneTo40(let h, let e, let slopePercent, _):
             return "EN 13715 — 1/40 / \(parameterString(h: h, e: e, slopePercent))"
-        case .S1002(let h, let e, let slopePercent, _):
+        case .s1002(let h, let e, let slopePercent, _):
             return "EN 13715 — S1002 / \(parameterString(h: h, e: e, slopePercent))"
-        case .EPS(let h, let e, let slopePercent, _):
+        case .eps(let h, let e, let slopePercent, _):
             return "EN 13715 — EPS / \(parameterString(h: h, e: e, slopePercent))"
         }
     }
@@ -43,18 +43,25 @@ extension EN13715: CustomStringConvertible {
 
 
 extension EN13715 {
+    /// Returns the profile as array of x-y-values. The distance between neighboring points returned is guaranteed
+    /// to be smaller than ``resolution``.
+    ///
+    /// - Parameter resolution: The maximum allowerd distance between two neighboring points.
+    /// - Returns: An array of ``CGPoint``s representing the profiles.
     public func profile(resolution: Double = 0.5) -> [CGPoint] {
         switch self {
         case .oneTo40(let h, let e, let slope, let wheelWidth):
             let flange = Flange(e: e, h: h)
             let runningSurface = OneTo40(e: e, slopePercent: slope, wheelWidth: wheelWidth)
             return flange.profile(resolution: resolution) + runningSurface.profile(resolution: resolution)
-        case .S1002(let h, let e, let slope, let wheelWidth):
+        case .s1002(let h, let e, let slope, let wheelWidth):
             let flange = Flange(e: e, h: h)
-            return flange.profile(resolution: resolution)
-        case .EPS(let h, let e, let slope, let wheelWidth):
+            let runningSurface = S1002(e: e, slopePercent: slope, wheelWidth: wheelWidth)
+            return flange.profile(resolution: resolution) + runningSurface.profile(resolution: resolution)
+        case .eps(let h, let e, let slope, let wheelWidth):
             let flange = Flange(e: e, h: h)
-            return flange.profile(resolution: resolution)
+            let runningSurface = EPS(e: e, slopePercent: slope, wheelWidth: wheelWidth)
+            return flange.profile(resolution: resolution) + runningSurface.profile(resolution: resolution)
         }
     }
 

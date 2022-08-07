@@ -11,7 +11,7 @@ import XCTest
 final class SamplerTests: XCTestCase {
 
 
-// MARK: - straighLine()
+    // MARK: - straighLine()
     func testStraightLine_havingTwoHorizontallyAlignedPoints() throws {
 
         let sut = Sampler.straightLine(from: CGPoint(x: 20.0, y: 30.0),
@@ -126,7 +126,7 @@ final class SamplerTests: XCTestCase {
     }
 
 
-// MARK: - arc()
+    // MARK: - arc()
     func testSimpleArcInQ1() {
         let sut = Sampler.arc(from: CGPoint(x: 1, y: 0),
                               to: CGPoint(x: 0, y: 1),
@@ -173,22 +173,97 @@ final class SamplerTests: XCTestCase {
 
 
     func testSimpleArcWithCenterNotAtZero() {
-            let sut = Sampler.arc(from: CGPoint(x: 4, y: 1),
-                                  to: CGPoint(x: 2, y: 3),
-                                  center: CGPoint(x: 2, y: 1),
-                                  radius: 2,
-                                  resolution: Double.pi/4.0)
+        let sut = Sampler.arc(from: CGPoint(x: 4, y: 1),
+                              to: CGPoint(x: 2, y: 3),
+                              center: CGPoint(x: 2, y: 1),
+                              radius: 2,
+                              resolution: Double.pi/4.0)
 
-            guard sut.count == 4 else {
-                XCTFail("Wrong length of result. Expected 4, got \(sut.count)."); return
-            }
-            XCTAssertEqual(sut[0], CGPoint(x: 2 + 2 * 0.924, y: 1 + 2 * 0.383), accuracy: 0.001)
-            XCTAssertEqual(sut[1], CGPoint(x: 2 + 2 * 0.707, y: 1 + 2 * 0.707), accuracy: 0.001)
-            XCTAssertEqual(sut[2], CGPoint(x: 2 + 2 * 0.383, y: 1 + 2 * 0.924), accuracy: 0.001)
-            XCTAssertEqual(sut[3], CGPoint(x: 2 + 2 * 0, y: 1 + 2 * 1), accuracy: 0.0001)
+        guard sut.count == 4 else {
+            XCTFail("Wrong length of result. Expected 4, got \(sut.count)."); return
+        }
+        XCTAssertEqual(sut[0], CGPoint(x: 2 + 2 * 0.924, y: 1 + 2 * 0.383), accuracy: 0.001)
+        XCTAssertEqual(sut[1], CGPoint(x: 2 + 2 * 0.707, y: 1 + 2 * 0.707), accuracy: 0.001)
+        XCTAssertEqual(sut[2], CGPoint(x: 2 + 2 * 0.383, y: 1 + 2 * 0.924), accuracy: 0.001)
+        XCTAssertEqual(sut[3], CGPoint(x: 2 + 2 * 0, y: 1 + 2 * 1), accuracy: 0.0001)
     }
 
+    // MARK: - resample()
+
+    func testResamplingOfASinglePointReturnsAnEmptyArray() {
+        let source = [CGPoint(x: 3.0, y: 6.0)]
+        XCTAssertEqual(Sampler.resample(source, resolution: 1.0), [CGPoint]())
+        XCTAssertEqual(Sampler.resample(source, resolution: 0.1), [CGPoint]())
+        XCTAssertEqual(Sampler.resample(source, resolution: 100.1), [CGPoint]())
+    }
+
+
+
+    func testResamplingWithTwoPointsButTooLowResolutionReturnsOnlySecondPoint() {
+        let source = [CGPoint(x: 1.0, y: 2.0),
+                      CGPoint(x: 2.0, y: 3.0)]
+        let resultLowResolution = Sampler.resample(source, resolution: 1.42)
+        XCTAssertEqual(resultLowResolution, [source[1]])
+    }
+
+
+
+    func testResamplingWithTwoPointsHighResolution() {
+        let source = [CGPoint(x: 1.0, y: 2.0),
+                      CGPoint(x: 2.0, y: 3.0)]
+        let sut = Sampler.resample(source, resolution: 0.5)
+        guard sut.count == 3 else {
+            XCTFail("Wrong lenght of result. Expected 4, got \(sut.count)."); return
+        }
+        XCTAssertEqual(sut[0], CGPoint(x: 1.2929, y: 2.2929), accuracy: 0.0001)
+        XCTAssertEqual(sut[1], CGPoint(x: 1.6464, y: 2.6464), accuracy: 0.0001)
+        XCTAssertEqual(sut[2], CGPoint(x: 2.0, y: 3.0), accuracy: 0.0001)
+    }
+
+
+    func testResamplingWithThreePointsHighResolution() {
+        let source = [CGPoint(x: 1.0, y: 2.0),
+                      CGPoint(x: 2.0, y: 3.0),
+                      CGPoint(x: 3.0, y: 2.0)]
+        let sut = Sampler.resample(source, resolution: 0.5)
+        guard sut.count == 6 else {
+            XCTFail("Wrong lenght of result. Expected 4, got \(sut.count)."); return
+        }
+        XCTAssertEqual(sut[0], CGPoint(x: 1.2929, y: 2.2929), accuracy: 0.0001)
+        XCTAssertEqual(sut[1], CGPoint(x: 1.6464, y: 2.6464), accuracy: 0.0001)
+        XCTAssertEqual(sut[2], CGPoint(x: 2.0, y: 3.0), accuracy: 0.0001)
+        XCTAssertEqual(sut[3], CGPoint(x: 2.2929, y: 2.7071), accuracy: 0.0001)
+        XCTAssertEqual(sut[4], CGPoint(x: 2.6464, y: 2.3536), accuracy: 0.0001)
+        XCTAssertEqual(sut[5], CGPoint(x: 3.0, y: 2.0), accuracy: 0.0001)
+    }
+
+
+
+    func testResamplingWithTwoPointsLowResolution() {
+        let source = [CGPoint(x: 1.0, y: 2.0),
+                      CGPoint(x: 2.0, y: 3.0)]
+        let sut = Sampler.resample(source, resolution: 1.42)
+        guard sut.count == 1 else {
+            XCTFail("Wrong lenght of result. Expected 4, got \(sut.count)."); return
+        }
+        XCTAssertEqual(sut[0], CGPoint(x: 2.0, y: 3.0), accuracy: 0.0001)
+    }
+
+
+
+    func testResamplingWithThreePointsLowResolution() {
+        let source = [CGPoint(x: 1.0, y: 2.0),
+                      CGPoint(x: 2.0, y: 3.0),
+                      CGPoint(x: 3.0, y: 2.0)]
+        let sut = Sampler.resample(source, resolution: 1.42)
+        guard sut.count == 2 else {
+            XCTFail("Wrong lenght of result. Expected 4, got \(sut.count)."); return
+        }
+        XCTAssertEqual(sut[0], CGPoint(x: 2.0, y: 3.0), accuracy: 0.0001)
+        XCTAssertEqual(sut[1], CGPoint(x: 3.0, y: 2.0), accuracy: 0.0001)
+    }
 }
+
 
 
 func XCTAssertEqual(_ lhs: CGPoint, _ rhs: CGPoint, accuracy: Double, file: StaticString = #file, line: UInt = #line) {

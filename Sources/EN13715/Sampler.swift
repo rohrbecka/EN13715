@@ -48,9 +48,9 @@ internal enum Sampler {
             ? (startAngleRad - endAngleRad) * radius
             : (endAngleRad - startAngleRad) * radius
         if arcLength < 0 {
-            arcLength = arcLength + 2 * Double.pi
+            arcLength = arcLength + 2 * Double.pi * radius
         }
-        arcLength = arcLength.truncatingRemainder(dividingBy: 360.0)
+        arcLength = arcLength.truncatingRemainder(dividingBy: 2*Double.pi * radius)
         let numberOfPoints = Int (arcLength / resolution) + 1
         let result = (0..<numberOfPoints)
             .map {
@@ -75,7 +75,16 @@ internal enum Sampler {
 
 
     public static func resample(_ source: [CGPoint], resolution: Double) -> [CGPoint] {
-        return source // TODO: implement
+        guard source.count > 1 else {
+            return [CGPoint]()
+        }
+        return source
+            .dropLast()
+            .enumerated()
+            .map {index, start in
+                straightLine(from: start, to: source[index+1], resolution: resolution)
+            }
+            .reduce([CGPoint](), +)
     }
 
     /// Calculates the distance betweem two ``CGPoint``s assuming a cartesian co-ordinate system.
@@ -97,7 +106,7 @@ internal enum Sampler {
         if dx == 0 && dy > 0 {
             return Double.pi / 2.0
         } else if dx == 0 && dy < 0 {
-            return Double.pi / 2.0
+            return -Double.pi / 2.0
         } else {
             let angle = atan(dy / dx)
             if dx > 0 {

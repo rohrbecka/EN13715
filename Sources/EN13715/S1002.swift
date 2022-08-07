@@ -10,8 +10,10 @@ import Foundation
 
 struct S1002 {
     /// The z values of the area between D1 and T1 (both included) with a sampling rate of 0.5 mm.
+    /// The first value is located at 67.5 - ``e`` in y-direction.
     ///
-    /// The first y-co-ordinate is the one of D1.
+    /// These values are taken from EN 13715:2020, Table  C.1.
+
     private static let D1T1ZCoordinates: [Double] =
         [6.867, // D1
          6.432,
@@ -85,10 +87,12 @@ struct S1002 {
          0.017]     // T1
 
 
-    /// The z values of the area between D0 and B1 (D0 included, B1 not included) with a sampling rate of 0.5 mm.
+    /// The z values of the area between D0 and B1 (both included) with a sampling rate of 0.5 mm.
     /// The first y-co-ordinate is 0.0 mm (D0).
+    ///
+    /// These values are taken from EN 13715:2020, Table  C.2 (wrongly numbered in the standard).
     private static let D0B1ZCoordinates: [Double] =
-        [0.000,
+        [0.0,
          -0.016,
          -0.032,
          -0.047,
@@ -154,14 +158,19 @@ struct S1002 {
          -0.737,
          -0.769]    // y = 32.0 mm
 
+    /// The reference point of the profile.
     let D0 = CGPoint(x: 0, y: 0)
 
+    /// The point between the running surface and the outer slope.
     let B1 = CGPoint(x: 32.158, y: -0.780)
 
+    /// The flange width, determining the position of the transition area from D1 to T1.
     let e: Double
 
+    /// The gradient of the outer slope in percent.
     let slopePercent: Double
 
+    /// The width of the wheel in mm.
     let wheelWidth: Double
 
     /// The points between ``D1`` (not included) and ``T1`` (included).
@@ -173,9 +182,10 @@ struct S1002 {
     /// The point ``T1``.
     let T1: CGPoint
 
-
+    /// The end point of th outer slope area.
     let A1: CGPoint
 
+    /// The end point of the chamfer.
     let I: CGPoint
 
     init(e: Double, slopePercent: Double, wheelWidth: Double) {
@@ -188,9 +198,9 @@ struct S1002 {
         }.dropFirst())
         self.D0B1 = Array(S1002.D0B1ZCoordinates.enumerated().map {(index, y) in
             CGPoint(x: Double(index) * 0.5, y: y)
-        })
+        }).dropFirst() + [CGPoint(x: 32.158, y: -0.78)]
         self.T1 = self.D1T1.last ?? D0
-        self.A1 = CGPoint(x: wheelWidth - 70.0 - 5.0, y: B1.y - slopePercent/100.0 * (wheelWidth - 110.0)) // TODO: double code
+        self.A1 = CGPoint(x: wheelWidth - 70.0 - 5.0, y: B1.y - slopePercent/100.0 * (wheelWidth - 70 - B1.x - 5))
         self.I = CGPoint(x: wheelWidth - 70.0, y: A1.y - 5.0) // TODO: double code
     }
 }
@@ -224,15 +234,13 @@ extension S1002 {
 
 
     private func slope(resolution: Double) -> [CGPoint] {
-        Sampler.straightLine(from: B1, to: A1, resolution: resolution) // TODO: near double code, but B1 instead of B1a)
+        Sampler.straightLine(from: B1, to: A1, resolution: resolution)
     }
-
 
 
     private func chamfer(resolution: Double) -> [CGPoint] {
         Sampler.straightLine(from: A1, to: I, resolution: resolution) // TODO: double code with OneTo40
     }
-
 
 
     private func wheelFront(resolution: Double) -> [CGPoint] {

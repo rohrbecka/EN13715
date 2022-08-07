@@ -22,8 +22,10 @@ internal struct OneTo40 {
     /// The width of the flange in mm. Defined in a range of 28.5 to 32.5.
     public let e: Double
 
+    /// The slope of the outer running surface in percent.
     public let slopePercent: Double
 
+    /// The width of the wheel in Millimeters.
     public let wheelWidth: Double
 
     /// The reduction of flange width in respect to a 32.5 mm flange width.
