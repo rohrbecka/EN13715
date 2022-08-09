@@ -10,9 +10,9 @@ import XCTest
 
 final class S1002Tests: XCTestCase {
 
-    let maxWidthFlange = S1002(e: 32.5, slopePercent: 15, wheelWidth: 140)
-    let S1002_e31_4 = S1002(e: 31.4, slopePercent: 10.0, wheelWidth: 135)
-    let minWidthFlange = S1002(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
+    let maxWidthFlange = S1002RunningSurface(e: 32.5, slopePercent: 15, wheelWidth: 140)
+    let S1002_e31_4 = S1002RunningSurface(e: 31.4, slopePercent: 10.0, wheelWidth: 135)
+    let minWidthFlange = S1002RunningSurface(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
 
 
     func testD0(){

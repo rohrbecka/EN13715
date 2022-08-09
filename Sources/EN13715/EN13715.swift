@@ -1,68 +1,48 @@
+//
+//  EN13715.swift
+//
+//
+//  Created by André Rohrbeck on 08.08.22.
+//
 import Foundation
 
 
 /// The Profiles as defined in EN 13715:2020-10.
 public enum EN13715 {
-    /// The 1/40 profile.
-    case oneTo40(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
-
-    /// The S1002 profile.
-    case s1002(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
-
-    /// The EPS profile.
-    case eps(h: Double, e: Double, _ slopePercent: Double, wheelWidth: Double = 135)
-}
-
-
-
-extension EN13715: CustomStringConvertible {
-    /// The profile name according EN 13715.
-    public var description: String {
-        switch self {
-        case .oneTo40(let h, let e, let slopePercent, _):
-            return "EN 13715 — 1/40 / \(parameterString(h: h, e: e, slopePercent))"
-        case .s1002(let h, let e, let slopePercent, _):
-            return "EN 13715 — S1002 / \(parameterString(h: h, e: e, slopePercent))"
-        case .eps(let h, let e, let slopePercent, _):
-            return "EN 13715 — EPS / \(parameterString(h: h, e: e, slopePercent))"
-        }
-    }
-
-
-    private func parameterString(h: Double, e: Double, _ slopePercent: Double) -> String {
-        "h\(h.formatted(doubleFormatter)) / e\(e.formatted(doubleFormatter)) / \(slopePercent.formatted(doubleFormatter)) %"
-    }
-
-
-
-    private var doubleFormatter: FloatingPointFormatStyle<Double> {
-        FloatingPointFormatStyle.number.precision(.fractionLength(0...1))
-    }
-}
-
-
-
-extension EN13715 {
-    /// Returns the profile as array of x-y-values. The distance between neighboring points returned is guaranteed
-    /// to be smaller than ``resolution``.
+    /// Creates a wheel profile defined in EN 13715.
     ///
-    /// - Parameter resolution: The maximum allowerd distance between two neighboring points.
-    /// - Returns: An array of ``CGPoint``s representing the profiles.
-    public func profile(resolution: Double = 0.5) -> [CGPoint] {
-        switch self {
-        case .oneTo40(let h, let e, let slope, let wheelWidth):
-            let flange = Flange(e: e, h: h)
-            let runningSurface = OneTo40(e: e, slopePercent: slope, wheelWidth: wheelWidth)
-            return flange.profile(resolution: resolution) + runningSurface.profile(resolution: resolution)
-        case .s1002(let h, let e, let slope, let wheelWidth):
-            let flange = Flange(e: e, h: h)
-            let runningSurface = S1002(e: e, slopePercent: slope, wheelWidth: wheelWidth)
-            return flange.profile(resolution: resolution) + runningSurface.profile(resolution: resolution)
-        case .eps(let h, let e, let slope, let wheelWidth):
-            let flange = Flange(e: e, h: h)
-            let runningSurface = EPS(e: e, slopePercent: slope, wheelWidth: wheelWidth)
-            return flange.profile(resolution: resolution) + runningSurface.profile(resolution: resolution)
+    /// - Parameters:
+    ///   - type: The type of wheel profile to be created.
+    ///   - h: The flange height in Millimeters.
+    ///   - e: The flange width in Millimeters.
+    ///   - slopePercent: The gradient of the outer running surface in %.
+    ///   - wheelWidth: The width of the wheel in Millimeters.
+    ///
+    /// - Throws : An ``InvalidRangeError`` if one of the parameters is outside of its valid range.
+    public static func profile(_ type: WheelProfileType,
+                               h: Double,
+                               e: Double,
+                               _ slopePercent: Double,
+                               wheelWidth: Double = 135) throws -> WheelProfile {
+        switch type {
+        case .oneTo40:
+            return try OneTo40(h: h, e: e, slopePercent, wheelWidth: wheelWidth)
+        case .s1002:
+            return try S1002(h: h, e: e, slopePercent, wheelWidth: wheelWidth)
+        case .eps:
+            return try EPS(h: h, e: e, slopePercent, wheelWidth: wheelWidth)
         }
     }
 
+
+    
+// MARK: - Valid Ranges
+    /// The range of valid flange heights in Millimeters.
+    public static let validHRange = 28.0...32.0
+
+    /// The range of valid flange widths in Millimeters.
+    public static let validERange = 28.5...32.5
+
+    /// The range of valid outer running surface gradients in %.
+    public static let validSlopeRange = 6.7...15.0
 }

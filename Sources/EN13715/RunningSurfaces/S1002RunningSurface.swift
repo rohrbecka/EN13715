@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct S1002 {
+struct S1002RunningSurface: RunningSurface {
     /// The z values of the area between D1 and T1 (both included) with a sampling rate of 0.5 mm.
     /// The first value is located at 67.5 - ``e`` in y-direction.
     ///
@@ -193,10 +193,10 @@ struct S1002 {
         self.slopePercent = slopePercent
         self.wheelWidth = wheelWidth
         let D1 = Flange(e: e, h: 30.0).D1 // 30.0 just as dummy value, TODO: Think on calculating functions.
-        self.D1T1 = Array(S1002.D1T1ZCoordinates.enumerated().map {(index, y) in
+        self.D1T1 = Array(S1002RunningSurface.D1T1ZCoordinates.enumerated().map {(index, y) in
             return CGPoint(x: D1.x + Double(index) * 0.5, y: y)
         }.dropFirst())
-        self.D0B1 = Array(S1002.D0B1ZCoordinates.enumerated().map {(index, y) in
+        self.D0B1 = Array(S1002RunningSurface.D0B1ZCoordinates.enumerated().map {(index, y) in
             CGPoint(x: Double(index) * 0.5, y: y)
         }).dropFirst() + [CGPoint(x: 32.158, y: -0.78)]
         self.T1 = self.D1T1.last ?? D0
@@ -207,7 +207,7 @@ struct S1002 {
 
 
 
-extension S1002 {
+extension S1002RunningSurface {
     internal func profile(resolution: Double) -> [CGPoint] {
         transitionZone(resolution: resolution)
         + T1D0(resolution: resolution)

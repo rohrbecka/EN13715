@@ -1,5 +1,5 @@
 //
-//  OneTo40.swift
+//  OneTo40RunningSurface.swift
 //  
 //
 //  Created by André Rohrbeck on 04.08.22.
@@ -17,7 +17,7 @@ import Foundation
 ///
 /// The name of internal variables, especially the points defined in the standard are written as they are shown in the
 /// standard in respect to capitalisation.
-internal struct OneTo40 {
+internal struct OneTo40RunningSurface: RunningSurface {
 
     /// The width of the flange in mm. Defined in a range of 28.5 to 32.5.
     public let e: Double
@@ -89,7 +89,7 @@ internal struct OneTo40 {
 
 
 // MARK: Calculation of the profile points
-extension OneTo40 {
+extension OneTo40RunningSurface {
     internal func profile(resolution: Double) -> [CGPoint] {
         flangeRadius(resolution: resolution)
         + transitionRadius(resolution: resolution)

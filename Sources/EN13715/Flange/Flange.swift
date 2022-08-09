@@ -29,43 +29,43 @@ internal struct Flange {
     public let de: Double
 
     /// The point D1, which limits the flange are towards the running surface.
-    internal let D1: CGPoint
+    public let D1: CGPoint
 
 
-    internal let E1: CGPoint
+    public let E1: CGPoint
     
 
     /// Center Point of an arc with 13 mm radius
-    internal let Dm: CGPoint
+    public let Dm: CGPoint
 
 
-    internal let F1: CGPoint
+    public let F1: CGPoint
     
 
-    internal let G1: CGPoint
+    public let G1: CGPoint
 
     /// The top of the flange.
-    internal let S: CGPoint
+    public let S: CGPoint
 
-    internal let H1: CGPoint
+    public let H1: CGPoint
 
     /// The end of the flange on the inner side of the wheel (from here on the wheel is flat).
-    internal let H2: CGPoint
+    public let H2: CGPoint
 
     /// Center of an arc with 20.5 mm radius.
-    internal let Hm: CGPoint
+    public let Hm: CGPoint
 
     /// Center of an arc with a radius of `Rfa`.
-    internal let Fm: CGPoint
+    public let Fm: CGPoint
 
     /// Center of an arc with a radius of `RI` of 12 mm..
-    internal let RIm: CGPoint
+    public let RIm: CGPoint
 
     /// Center of an arc with a radius of `RE` of 12 mm.
-    internal let REm: CGPoint
+    public let REm: CGPoint
 
     /// Radius of the outher area of the flange in mm. Depends on the height of the flange.
-    internal let Rfa: Double
+    public let Rfa: Double
 
 
     /// Creates a new ``Flange`` with the given height and width.

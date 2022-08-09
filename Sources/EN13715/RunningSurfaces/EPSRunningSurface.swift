@@ -17,7 +17,7 @@ import Foundation
 ///
 /// The name of internal variables, especially the points defined in the standard are written as they are shown in the
 /// standard in respect to capitalisation.
-internal struct EPS {
+internal struct EPSRunningSurface: RunningSurface {
 
     /// The width of the flange in mm. Defined in a range of 28.5 to 32.5.
     public let e: Double
@@ -65,8 +65,8 @@ internal struct EPS {
 
 
 
-extension EPS {
-    func profile(resolution: Double) -> [CGPoint] {
+extension EPSRunningSurface {
+    public func profile(resolution: Double) -> [CGPoint] {
         transitionZone(resolution: resolution)
         + radius100mm(resolution: resolution)
         + radius330mm(resolution: resolution)

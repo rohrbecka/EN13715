@@ -8,10 +8,10 @@
 import XCTest
 @testable import EN13715
 
-final class OneTo40Tests: XCTestCase {
+final class OneTo40RunningSurfaceTests: XCTestCase {
 
-    let maxWidthFlange = OneTo40(e: 32.5, slopePercent: 15, wheelWidth: 140)
-    let minWidthFlange = OneTo40(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
+    let maxWidthFlange = OneTo40RunningSurface(e: 32.5, slopePercent: 15, wheelWidth: 140)
+    let minWidthFlange = OneTo40RunningSurface(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
 
     func testJm() {
         XCTAssertEqual(maxWidthFlange.Jm.x, -14.740, accuracy: 0.0000001)

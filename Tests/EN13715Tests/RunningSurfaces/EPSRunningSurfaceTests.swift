@@ -10,8 +10,8 @@ import XCTest
 
 final class EPSTests: XCTestCase {
 
-    let maxWidthFlange = EPS(e: 32.5, slopePercent: 15, wheelWidth: 140)
-    let minWidthFlange = EPS(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
+    let maxWidthFlange = EPSRunningSurface(e: 32.5, slopePercent: 15, wheelWidth: 140)
+    let minWidthFlange = EPSRunningSurface(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
 
     func testJm() {
         XCTAssertEqual(maxWidthFlange.Jm, CGPoint(x: -6.5, y: 100.871))
