@@ -21,7 +21,7 @@ internal struct OneTo40: WheelProfile {
     public var flange: Flange
 
     /// The running surfae definition.
-    public var runningSurface: RunningSurface
+    public var runningSurface: OneTo40RunningSurface
 
     /// Creates a new S1002 profile with the given parameters.
     ///
@@ -61,6 +61,7 @@ internal struct OneTo40: WheelProfile {
         profile(resolution: 0.5)
     }
 
+    
     public func profile(resolution: Double) -> [CGPoint] {
         return flange.profile(resolution: resolution)
         + runningSurface.profile(resolution: resolution)

@@ -8,7 +8,7 @@
 import Foundation
 
 
-struct S1002RunningSurface: RunningSurface {
+struct S1002RunningSurface {
     /// The z values of the area between D1 and T1 (both included) with a sampling rate of 0.5 mm.
     /// The first value is located at 67.5 - ``e`` in y-direction.
     ///

@@ -17,7 +17,7 @@ import Foundation
 ///
 /// The name of internal variables, especially the points defined in the standard are written as they are shown in the
 /// standard in respect to capitalisation.
-internal struct OneTo40RunningSurface: RunningSurface {
+internal struct OneTo40RunningSurface {
 
     /// The width of the flange in mm. Defined in a range of 28.5 to 32.5.
     public let e: Double

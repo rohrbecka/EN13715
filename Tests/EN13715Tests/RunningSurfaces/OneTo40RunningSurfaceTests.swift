@@ -99,4 +99,34 @@ final class OneTo40RunningSurfaceTests: XCTestCase {
         XCTAssertEqual(maxWidthFlange.I.y, -0.875 - 4.5 - 5, accuracy: 0.0000001)
         XCTAssertEqual(minWidthFlange.I.y, -0.875 - 1.675 - 5, accuracy: 0.0000001)
     }
+
+
+
+    func testThatMaximumDistanceIsRespected() {
+        XCTAssertLessThan(maxWidthFlange.profile(resolution: 1.0).distances.max()!, 1.0000001)
+        XCTAssertLessThan(minWidthFlange.profile(resolution: 0.2).distances.max()!, 0.200001)
+    }
+
+
+
+    func testThatAllCharacteristicPointsArePresent() {
+        let sut0 = maxWidthFlange.profile(resolution: 1.0)
+        let sut1 = minWidthFlange.profile(resolution: 0.5)
+
+        XCTAssert(sut0.contains(maxWidthFlange.D1a))
+        XCTAssert(sut0.contains(maxWidthFlange.C11a))
+        XCTAssert(sut0.contains(maxWidthFlange.T1))
+        XCTAssert(sut0.contains(maxWidthFlange.D0))
+        XCTAssert(sut0.contains(maxWidthFlange.B1a))
+        XCTAssert(sut0.contains(maxWidthFlange.A1))
+        XCTAssert(sut0.contains(maxWidthFlange.I))
+
+        XCTAssert(sut1.contains(minWidthFlange.D1a))
+        XCTAssert(sut1.contains(minWidthFlange.C11a))
+        XCTAssert(sut1.contains(minWidthFlange.T1))
+        XCTAssert(sut1.contains(minWidthFlange.D0))
+        XCTAssert(sut1.contains(minWidthFlange.B1a))
+        XCTAssert(sut1.contains(minWidthFlange.A1))
+        XCTAssert(sut1.contains(minWidthFlange.I))
+    }
 }

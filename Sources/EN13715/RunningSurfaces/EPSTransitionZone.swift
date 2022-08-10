@@ -255,7 +255,7 @@ internal enum EPSTransitionZone {
 
 
 
-    public static func values(e: Double) -> [CGPoint] {
+    internal static func values(e: Double) -> [CGPoint] {
         if let values = points[e] {
             return values.points
         } else {

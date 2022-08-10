@@ -17,7 +17,7 @@ import Foundation
 ///
 /// The name of internal variables, especially the points defined in the standard are written as they are shown in the
 /// standard in respect to capitalisation.
-internal struct EPSRunningSurface: RunningSurface {
+internal struct EPSRunningSurface {
 
     /// The width of the flange in mm. Defined in a range of 28.5 to 32.5.
     public let e: Double
@@ -30,28 +30,28 @@ internal struct EPSRunningSurface: RunningSurface {
 
 
     /// The center of the 100-mm-radius.
-    internal let Jm = CGPoint(x: -6.5, y: 100.871)
+    public let Jm = CGPoint(x: -6.5, y: 100.871)
 
     /// The center of the 330-mm-radius.
-    internal let Jm1 = CGPoint(x: 19.0, y: 329.453)
+    public let Jm1 = CGPoint(x: 19.0, y: 329.453)
 
     /// The starting point of the 100 mm radius.
-    internal let C1b = CGPoint(x: -26.0, y: 2.79)
+    public let C1b = CGPoint(x: -26.0, y: 2.79)
 
     /// The starting point of the 330 mm radius.
-    internal let C11b = CGPoint(x: -17.587, y: 1.487)
+    public let C11b = CGPoint(x: -17.587, y: 1.487)
 
     /// The end point of the 330 mm radius.
-    internal let C12 = CGPoint(x: 19, y: -0.547)
+    public let C12 = CGPoint(x: 19, y: -0.547)
 
     /// The point between the horizontal part and the outer slope.
-    internal let B1b = CGPoint(x: 29, y: -0.547)
+    public let B1b = CGPoint(x: 29, y: -0.547)
 
     /// The end of the outer slope and the beginning of the chamfer.
-    internal let A1: CGPoint
+    public let A1: CGPoint
 
     /// The end point of the chamfer.
-    internal let I: CGPoint
+    public let I: CGPoint
 
 
     public init(e: Double, slopePercent: Double, wheelWidth: Double) {

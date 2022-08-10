@@ -14,6 +14,91 @@ final class EN13715Tests: XCTestCase {
     }
 
 
+
+    func testTooSmallHValues() {
+        XCTAssertThrowsError(try EN13715.profile(.oneTo40, h: 27.9, e: 30.5, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .h)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.s1002, h: 27.9, e: 30.5, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .h)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.eps, h: 27.9, e: 30.5, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .h)
+        }
+    }
+
+
+
+    func testTooHighHValues() {
+        XCTAssertThrowsError(try EN13715.profile(.oneTo40, h: 32.1, e: 30.5, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .h)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.s1002, h: 32.1, e: 30.5, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .h)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.eps, h: 32.1, e: 30.5, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .h)
+        }
+    }
+
+
+
+    func testTooSmallEValues() {
+        XCTAssertThrowsError(try EN13715.profile(.oneTo40, h: 30.0, e: 28.4, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .e)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.s1002, h: 30.0, e: 28.4, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .e)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.eps, h: 30.0, e: 28.4, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .e)
+        }
+    }
+
+
+
+    func testTooHighEValues() {
+        XCTAssertThrowsError(try EN13715.profile(.oneTo40, h: 30, e: 32.55, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .e)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.s1002, h: 30, e: 32.55, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .e)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.eps, h: 30, e: 32.55, 10)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .e)
+        }
+    }
+
+
+
+    func testTooSmallSlopeValues() {
+        XCTAssertThrowsError(try EN13715.profile(.oneTo40, h: 30.0, e: 32, 6.6)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .slope)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.s1002, h: 30.0, e: 32, 6.6)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .slope)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.eps, h: 30.0, e: 32, 6.6)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .slope)
+        }
+    }
+
+
+
+    func testTooHighSlopeValues() {
+        XCTAssertThrowsError(try EN13715.profile(.oneTo40, h: 30, e: 32, 15.1)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .slope)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.s1002, h: 30, e: 32, 15.1)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .slope)
+        }
+        XCTAssertThrowsError(try EN13715.profile(.eps, h: 30, e: 32, 15.1)) { error in
+            XCTAssertEqual(error as? InvalidRangeError, .slope)
+        }
+    }
+
+
+
     func testOneTo40() {
         if let oneTo40 = try? EN13715.profile(.eps, h: 30, e: 32.5, 10.0, wheelWidth: 140) {
             let points = oneTo40.profile(resolution: 0.5 )

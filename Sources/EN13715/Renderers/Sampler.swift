@@ -54,6 +54,9 @@ internal enum Sampler {
         let numberOfPoints = Int (arcLength / resolution) + 1
         let result = (0..<numberOfPoints)
             .map {
+                if $0 == numberOfPoints-1 {
+                    return end
+                }
                 let angle: Double
                 if negativeDirection {
                     angle = endAngleRad + Double(numberOfPoints - $0 - 1) * resolution / radius

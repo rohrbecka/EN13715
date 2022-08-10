@@ -24,6 +24,11 @@ public protocol WheelProfile: CustomStringConvertible {
     /// The profile name according EN 13715.
     var description: String { get }
 
+    /// Returns the profile as array of x-y-values with an optimal resolution.
+    ///
+    /// - Returns: An array of ``CGPoint``s representing the profiles.
+    func profile() -> [CGPoint]
+
     /// Returns the profile as array of x-y-values.
     ///
     /// The distance between neighboring points returned is guaranteed to be smaller than ``resolution``.
@@ -31,8 +36,6 @@ public protocol WheelProfile: CustomStringConvertible {
     /// - Parameter resolution: The maximum allowerd distance between two neighboring points.
     /// - Returns: An array of ``CGPoint``s representing the profiles.
     func profile(resolution: Double) -> [CGPoint]
-
-    func profile() -> [CGPoint]
 }
 
 

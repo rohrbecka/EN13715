@@ -50,11 +50,43 @@ final class EPSTests: XCTestCase {
 
 
     func testA1() {
-
+        XCTAssertEqual(maxWidthFlange.A1.x, 65)
+        XCTAssertEqual(maxWidthFlange.A1.y, -5.947, accuracy: 0.000001)
+        XCTAssertEqual(minWidthFlange.A1, CGPoint(x: 60,y: -2.624))
     }
 
 
     func testI() {
+        XCTAssertEqual(maxWidthFlange.I.x, 70)
+        XCTAssertEqual(maxWidthFlange.I.y, -10.947, accuracy: 0.000001)
+        XCTAssertEqual(minWidthFlange.I.x, 65)
+        XCTAssertEqual(minWidthFlange.I.y, -7.624, accuracy: 0.000001)
+    }
 
+
+    func testThatMaximumDistanceIsRespected() {
+        XCTAssertLessThan(maxWidthFlange.profile(resolution: 1.0).distances.max()!, 1.0000001)
+        XCTAssertLessThan(minWidthFlange.profile(resolution: 0.2).distances.max()!, 0.200002)
+    }
+
+
+
+    func testThatAllCharacteristicPointsArePresent() {
+        let sut0 = maxWidthFlange.profile(resolution: 1.0)
+        let sut1 = minWidthFlange.profile(resolution: 0.5)
+
+        XCTAssert(sut0.contains(maxWidthFlange.C1b))
+        XCTAssert(sut0.contains(maxWidthFlange.C11b))
+        XCTAssert(sut0.contains(maxWidthFlange.C12))
+        XCTAssert(sut0.contains(maxWidthFlange.B1b))
+        XCTAssert(sut0.contains(maxWidthFlange.A1))
+        XCTAssert(sut0.contains(maxWidthFlange.I))
+
+        XCTAssert(sut1.contains(minWidthFlange.C1b))
+        XCTAssert(sut1.contains(minWidthFlange.C11b))
+        XCTAssert(sut1.contains(minWidthFlange.C12))
+        XCTAssert(sut1.contains(minWidthFlange.B1b))
+        XCTAssert(sut1.contains(minWidthFlange.A1))
+        XCTAssert(sut1.contains(minWidthFlange.I))
     }
 }

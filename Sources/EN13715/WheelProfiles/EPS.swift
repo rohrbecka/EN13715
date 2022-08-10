@@ -22,7 +22,7 @@ internal struct EPS: WheelProfile {
     public var flange: Flange
 
     /// The running surfae definition.
-    public var runningSurface: RunningSurface
+    public var runningSurface: EPSRunningSurface
 
 
     /// Creates a new EPS profile.
@@ -63,6 +63,7 @@ internal struct EPS: WheelProfile {
         profile(resolution: 0.5)
     }
 
+    
     public func profile(resolution: Double) -> [CGPoint] {
         return flange.profile(resolution: resolution)
         + runningSurface.profile(resolution: resolution)
