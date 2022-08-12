@@ -19,10 +19,10 @@ internal struct EPS: WheelProfile {
     public var wheelWidth: Double
 
     /// The flange definition.
-    public var flange: Flange
+    private var flange: Flange
 
     /// The running surfae definition.
-    public var runningSurface: EPSRunningSurface
+    private var runningSurface: EPSRunningSurface
 
 
     /// Creates a new EPS profile.

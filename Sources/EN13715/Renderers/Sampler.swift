@@ -36,6 +36,22 @@ internal enum Sampler {
 
 
 
+    /// Returns an `Array` of points on an arc between `start` and `end` including the `end` point.
+    ///
+    /// It is guaranteed that two neighboring points have no larger distance than `resolution`.
+    /// The portion of the arc to be sampled is determined by the angle of the `start` and the `end`
+    /// point in respect to the `center`.
+    /// It is not checked whether `start` and `end` are located exactly on the circle defined by `center` and
+    /// `radius`. Onyl the angle is used and `end` is used as the final point in the returned `Array`.
+    ///
+    /// - Parameters:
+    ///   - start: The starting point, which will *not* be included in the returned `Array`.
+    ///   - end: The end point, which will be part of the returned `Array`.
+    ///   - center: The center of the arc.
+    ///   - radius: The radius of the arc.
+    ///   - negativeDirection: Whether the arc is drawn in mathematically negative direction.
+    ///   - resolution: The maximum allowed distance between two points.
+    /// - Returns: The representation of the arc as an `Array` of `CGPoints`.
     public static func arc(from start: CGPoint,
                            to end: CGPoint,
                            center: CGPoint,
@@ -77,6 +93,17 @@ internal enum Sampler {
 
 
 
+    /// Returns the source `Array` of points with interpolated points, if they are necessary to match the
+    /// required `resolution`.
+    ///
+    /// In the returned `Array` it is guaranteed that the distance between two neighboring points is not
+    /// higher than `resolution`.
+    /// The `source` array will not be downsampled.
+    ///
+    /// - Parameters:
+    ///   - source: An `Array` of points to be resampled
+    ///   - resolution
+    /// - Returns: The  source points, possibly with additional interpolated points.
     public static func resample(_ source: [CGPoint], resolution: Double) -> [CGPoint] {
         guard source.count > 1 else {
             return [CGPoint]()
@@ -102,7 +129,12 @@ internal enum Sampler {
     }
 
 
-
+    /// Returns the ange of the given `point` in respect to the `center` point.
+    ///
+    /// - Parameters:
+    ///   - point: The point of which to calculate the angle.
+    ///   - center: The center point in respect to whcih to calculate the angle.
+    /// - Returns: The angle of the `point` in respect to the `center` in radians.
     private static func angle(of point: CGPoint, inRespectTo center: CGPoint) -> Double {
         let dx = point.x - center.x
         let dy = point.y - center.y

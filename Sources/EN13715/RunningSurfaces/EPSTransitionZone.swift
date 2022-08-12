@@ -7,8 +7,15 @@
 
 import Foundation
 
+/// The transition zone of the EPS profile between points D1 and C1b according to
+/// table D.1 in EN 13715:2020.
+///
+/// The transition zone of the EPS profile is given as a table for flange widths between
+/// 28.5 and 32.5 mm with a resolution of 0.5 mm.  For other flange widths between 28.5 and
+/// 32.5 mm the points are interpolated.
 internal enum EPSTransitionZone {
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 32.5 mm.
     private static let e32_5 = EPSTransitionZoneSample(e: 32.5,
                                                        D1x: -35.0,
                                                        values: [6.867,
@@ -31,6 +38,7 @@ internal enum EPSTransitionZone {
                                                                 2.954,
                                                                 2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 32.0 mm.
     private static let e32 = EPSTransitionZoneSample(e: 32.0,
                                                      D1x: -35.5,
                                                      values: [6.867,
@@ -54,6 +62,7 @@ internal enum EPSTransitionZone {
                                                               2.938,
                                                               2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 31.5 mm.
     private static let e31_5 = EPSTransitionZoneSample(e: 31.5,
                                                        D1x: -36.0,
                                                        values: [6.867,
@@ -78,6 +87,7 @@ internal enum EPSTransitionZone {
                                                                 2.923,
                                                                 2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 31.0 mm.
     private static let e31 = EPSTransitionZoneSample(e: 31.0,
                                                      D1x: -36.5,
                                                      values: [6.867,
@@ -103,6 +113,7 @@ internal enum EPSTransitionZone {
                                                               2.910,
                                                               2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 30.5 mm.
     private static let e30_5 = EPSTransitionZoneSample(e: 30.5,
                                                        D1x: -37.0,
                                                        values: [6.867,
@@ -129,6 +140,7 @@ internal enum EPSTransitionZone {
                                                                 2.898,
                                                                 2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 30.0 mm.
     private static let e30 = EPSTransitionZoneSample(e: 30.0,
                                                      D1x: -37.5,
                                                      values: [6.867,
@@ -156,6 +168,7 @@ internal enum EPSTransitionZone {
                                                               2.891,
                                                               2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 29.5 mm.
     private static let e29_5 = EPSTransitionZoneSample(e: 29.5,
                                                        D1x: -38.0,
                                                        values: [6.867,
@@ -184,6 +197,7 @@ internal enum EPSTransitionZone {
                                                                 2.878,
                                                                 2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 29.0 mm.
     private static let e29 = EPSTransitionZoneSample(e: 29.0,
                                                      D1x: -38.5,
                                                      values: [6.867,
@@ -213,6 +227,7 @@ internal enum EPSTransitionZone {
                                                               2.870,
                                                               2.790])
 
+    /// The points according table D.1 in EN 13715:2020 for a flange width of 28.5 mm.
     private static let e28_5 = EPSTransitionZoneSample(e: 28.5,
                                                        D1x: -39.0,
                                                        values: [6.867,
@@ -243,6 +258,7 @@ internal enum EPSTransitionZone {
                                                                 2.862,
                                                                 2.790])
 
+    /// The compete table D.1 in EN 13715:2020.
     private static let points = [28.5: e28_5,
                                  29.0: e29,
                                  29.5: e29_5,
@@ -254,8 +270,15 @@ internal enum EPSTransitionZone {
                                  32.5: e32_5]
 
 
-
-    internal static func values(e: Double) -> [CGPoint] {
+    /// Returns the complete transition zone values from D1 to C1b for a given flange width.
+    ///
+    /// The points in the transition zone are mostly calculated by interpolating the columsn in
+    /// table D.1 of EN 13715:2020. The first point has always the z-value of point D1, but is
+    /// adjusted in its x value according to the flange width.
+    ///
+    /// - Parameter e: The flange width in Millimeters.
+    /// - Returns: The points defining the transition zone from D1 to C1b.
+    public static func values(e: Double) -> [CGPoint] {
         if let values = points[e] {
             return values.points
         } else {
@@ -297,16 +320,24 @@ internal enum EPSTransitionZone {
 }
 
 
-
-struct EPSTransitionZoneSample {
+/// One column of Table D.1 in EN 13715:2020.
+fileprivate struct EPSTransitionZoneSample {
     /// The x co-ordinate of the C1b point where the transition zone is ending.
-    let C1bx = -26.0
+    public let C1bx = -26.0
 
-    let points: [CGPoint]
+    /// The points in the table.
+    public let points: [CGPoint]
 
-    let e: Double
+    /// The flange width in Millimeters, for which this column contains the values.
+    public let e: Double
 
-    init(e: Double, D1x: Double, values: [Double]) {
+    /// Creates a new ``EPSTransitionZoneSample``.
+    ///
+    /// - Parameters:
+    ///   - e: The flange width in Millimeters.
+    ///   - D1x: The x co-ordinate of the D1 point, defining the x-coordinate of the first `value`.
+    ///   - values: The z-values of the
+    public init(e: Double, D1x: Double, values: [Double]) {
         self.e = e
         let resolution = (C1bx - D1x)/Double(values.count-1)
         self.points = values.enumerated().map {index, y in

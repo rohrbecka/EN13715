@@ -14,38 +14,32 @@ final class EPSTests: XCTestCase {
     let minWidthFlange = EPSRunningSurface(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
 
     func testJm() {
-        XCTAssertEqual(maxWidthFlange.Jm, CGPoint(x: -6.5, y: 100.871))
-        XCTAssertEqual(minWidthFlange.Jm, CGPoint(x: -6.5, y: 100.871))
+        XCTAssertEqual(EPSRunningSurface.Jm, CGPoint(x: -6.5, y: 100.871))
     }
 
 
     func testJm1() {
-        XCTAssertEqual(maxWidthFlange.Jm1, CGPoint(x: 19.0, y: 329.453))
-        XCTAssertEqual(minWidthFlange.Jm1, CGPoint(x: 19.0, y: 329.453))
+        XCTAssertEqual(EPSRunningSurface.Jm1, CGPoint(x: 19.0, y: 329.453))
     }
 
 
     func testC1b() {
-        XCTAssertEqual(maxWidthFlange.C1b, CGPoint(x: -26.0, y: 2.79))
-        XCTAssertEqual(minWidthFlange.C1b, CGPoint(x: -26.0, y: 2.79))
+        XCTAssertEqual(EPSRunningSurface.C1b, CGPoint(x: -26.0, y: 2.79))
     }
 
 
     func testC11b() {
-        XCTAssertEqual(maxWidthFlange.C11b, CGPoint(x: -17.587, y: 1.487))
-        XCTAssertEqual(minWidthFlange.C11b, CGPoint(x: -17.587, y: 1.487))
+        XCTAssertEqual(EPSRunningSurface.C11b, CGPoint(x: -17.587, y: 1.487))
     }
 
 
     func testC12() {
-        XCTAssertEqual(maxWidthFlange.C12, CGPoint(x: 19.0, y: -0.547))
-        XCTAssertEqual(minWidthFlange.C12, CGPoint(x: 19.0, y: -0.547))
+        XCTAssertEqual(EPSRunningSurface.C12, CGPoint(x: 19.0, y: -0.547))
     }
 
 
     func testB1b() {
-        XCTAssertEqual(maxWidthFlange.B1b, CGPoint(x: 29.0, y: -0.547))
-        XCTAssertEqual(minWidthFlange.B1b, CGPoint(x: 29.0, y: -0.547))
+        XCTAssertEqual(EPSRunningSurface.B1b, CGPoint(x: 29.0, y: -0.547))
     }
 
 
@@ -75,17 +69,17 @@ final class EPSTests: XCTestCase {
         let sut0 = maxWidthFlange.profile(resolution: 1.0)
         let sut1 = minWidthFlange.profile(resolution: 0.5)
 
-        XCTAssert(sut0.contains(maxWidthFlange.C1b))
-        XCTAssert(sut0.contains(maxWidthFlange.C11b))
-        XCTAssert(sut0.contains(maxWidthFlange.C12))
-        XCTAssert(sut0.contains(maxWidthFlange.B1b))
+        XCTAssert(sut0.contains(EPSRunningSurface.C1b))
+        XCTAssert(sut0.contains(EPSRunningSurface.C11b))
+        XCTAssert(sut0.contains(EPSRunningSurface.C12))
+        XCTAssert(sut0.contains(EPSRunningSurface.B1b))
         XCTAssert(sut0.contains(maxWidthFlange.A1))
         XCTAssert(sut0.contains(maxWidthFlange.I))
 
-        XCTAssert(sut1.contains(minWidthFlange.C1b))
-        XCTAssert(sut1.contains(minWidthFlange.C11b))
-        XCTAssert(sut1.contains(minWidthFlange.C12))
-        XCTAssert(sut1.contains(minWidthFlange.B1b))
+        XCTAssert(sut1.contains(EPSRunningSurface.C1b))
+        XCTAssert(sut1.contains(EPSRunningSurface.C11b))
+        XCTAssert(sut1.contains(EPSRunningSurface.C12))
+        XCTAssert(sut1.contains(EPSRunningSurface.B1b))
         XCTAssert(sut1.contains(minWidthFlange.A1))
         XCTAssert(sut1.contains(minWidthFlange.I))
     }

@@ -18,10 +18,10 @@ internal struct S1002: WheelProfile {
     public let wheelWidth: Double
 
     /// The flange definition.
-    public let flange: Flange
+    private let flange: Flange
 
     /// The running surface definition.
-    public let runningSurface: S1002RunningSurface
+    private let runningSurface: S1002RunningSurface
 
     /// Creates a new S1002 profile with the given parameters.
     ///

@@ -18,10 +18,10 @@ internal struct OneTo40: WheelProfile {
     public var wheelWidth: Double
 
     /// The flange definition.
-    public var flange: Flange
+    private var flange: Flange
 
     /// The running surfae definition.
-    public var runningSurface: OneTo40RunningSurface
+    private var runningSurface: OneTo40RunningSurface
 
     /// Creates a new S1002 profile with the given parameters.
     ///

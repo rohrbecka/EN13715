@@ -25,48 +25,6 @@ internal struct Flange {
     /// The height of the flange in mm. Defined in a range of 28 to 32 mm.
     public let h: Double
 
-    /// The reduction of flange width in respect to a 32.5 mm flange width.
-    public let de: Double
-
-    /// The point D1, which limits the flange are towards the running surface.
-    public let D1: CGPoint
-
-
-    public let E1: CGPoint
-    
-
-    /// Center Point of an arc with 13 mm radius
-    public let Dm: CGPoint
-
-
-    public let F1: CGPoint
-    
-
-    public let G1: CGPoint
-
-    /// The top of the flange.
-    public let S: CGPoint
-
-    public let H1: CGPoint
-
-    /// The end of the flange on the inner side of the wheel (from here on the wheel is flat).
-    public let H2: CGPoint
-
-    /// Center of an arc with 20.5 mm radius.
-    public let Hm: CGPoint
-
-    /// Center of an arc with a radius of `Rfa`.
-    public let Fm: CGPoint
-
-    /// Center of an arc with a radius of `RI` of 12 mm..
-    public let RIm: CGPoint
-
-    /// Center of an arc with a radius of `RE` of 12 mm.
-    public let REm: CGPoint
-
-    /// Radius of the outher area of the flange in mm. Depends on the height of the flange.
-    public let Rfa: Double
-
 
     /// Creates a new ``Flange`` with the given height and width.
     ///
@@ -76,58 +34,6 @@ internal struct Flange {
     public init(e: Double, h: Double) {
         self.e = e
         self.h = h
-
-        self.de = 32.5 - e
-        self.D1 = CGPoint(x: -35.0-de, y: 6.867)
-        self.E1 = CGPoint(x: -38.427-de, y: 12.0)
-        self.Dm = CGPoint(x: -26.211-de, y: 16.446)
-        if h < 30 {
-            self.F1 = CGPoint(x: (-40.530+39.765) / 2 * (h-28)-39.765-de, y: (17.779-15.675) / 2 * (h-28) + 15.675)
-            self.G1 = CGPoint(x: (-47.758+49.663) / 2 * (h-28)-49.663-de, y: (27.568-26.748) / 2 * (h-28) + 26.748)
-            self.Fm = CGPoint(x: (-60.733+58.558) / 2 * (h-28)-58.558-de, y: (10.425-8.835) / 2 * (h-28) + 8.835)
-        } else {
-            self.F1 = CGPoint(x: (-41.497+40.530) / 2 * (h-30)-40.530-de, y: (20.434-17.779) / 2 * (h-30) + 17.779)
-            self.G1 = CGPoint(x: (-46.153+47.758) / 2 * (h-30)-47.758-de, y: (28.108-27.568) / 2 * (h-30) + 27.568)
-            self.Fm = CGPoint(x: (-63.110+60.733) / 2 * (h-30)-60.733-de, y: (12.558-10.425) / 2 * (h-30) + 10.425)
-        }
-
-        self.S = CGPoint(x: Flange.Sx(e: e), y: Flange.Sy(e: e, h: h))
-        self.H1 = CGPoint(x: -62.765, y: 25.149 + h - 28)
-        self.H2 = CGPoint(x: -70.0, y: 9.519 + h - 28)
-        self.Hm = CGPoint(x: -49.5, y: 9.519 + h - 28)
-        self.RIm = CGPoint(x: -55, y: 16 + h - 28)
-        self.REm = CGPoint(x: -55 - de, y: 16 + h - 28)
-        self.Rfa = (h - 28) / 4.0 * 3.0 + 20.0
-    }
-
-
-    /// Calculates the x co-ordinate of the top of flange (point ``S``).
-    ///
-    /// - Parameter e: The flange width in mm.
-    /// - Returns: The x co-ordinate of ``S`` in milimeters.
-    private static func Sx(e: Double) -> Double {
-        -55 - (32.5 - e)/2.0
-    }
-
-
-
-    /// Calculates the y co-ordinate of the top of flange (point ``S``).
-    ///
-    /// - Parameter e: The flange width in mm.
-    /// - Parameter h: The flange height in mm
-    /// - Returns: The y co-ordinate of ``S`` in milimeters.
-    private static func Sy(e: Double, h: Double) -> Double {
-        let reduction: Double
-        if e > 31.5 {
-            reduction = 0 + (32.5 - e) * 0.01
-        } else if e > 30.5 {
-            reduction = 0.01 + (31.5 - e) * 0.032
-        } else if e > 29.5 {
-            reduction = 0.042 + (30.5 - e) * 0.052
-        } else {
-            reduction = 0.094 + (29.5 - e) * 0.074
-        }
-        return h - reduction
     }
 }
 
@@ -144,7 +50,7 @@ extension Flange {
     /// Distance is measured along the arc or the straight line.
     ///
     /// - Parameter resolution: The maximum allowed distance between two points in mm.
-    internal func profile(resolution: Double) -> [CGPoint] {
+    public func profile(resolution: Double) -> [CGPoint] {
         wheelBack(resolution: resolution)
         + flangeBack(resolution: resolution)
         + flangeInnerTop(resolution: resolution)
@@ -159,8 +65,11 @@ extension Flange {
     /// The wheel back is a vertical straight line starting at a y position of -10 mm and ending at ``H2``.
     /// The returned array contains the point H2.
     private func wheelBack(resolution: Double) -> [CGPoint] {
-        let start = CGPoint(x: H2.x, y: H2.y - 10)
-        return Sampler.straightLine(from: start, to: H2, resolution: resolution)
+        let start = CGPoint(x: EN13715.H2(h: h).x,
+                            y: EN13715.H2(h: h).y - 10)
+        return Sampler.straightLine(from: start,
+                                    to: EN13715.H2(h: h),
+                                    resolution: resolution)
     }
 
     /// Returns an Array of ``CGPoint``s representing the rear area of the flange from point ``H2``
@@ -169,7 +78,12 @@ extension Flange {
     /// This area consists of an arc with a radius of 20.5 mm and the center at ``Hm``
     /// The returned array contains the final point ``H1`` but not the point ``H2``.
     private func flangeBack(resolution: Double) -> [CGPoint] {
-        Sampler.arc(from: H2, to: H1, center: Hm, radius: 20.5, negativeDirection: true, resolution: resolution)
+        Sampler.arc(from: EN13715.H2(h: h),
+                    to: EN13715.H1(h: h),
+                    center: EN13715.Hm(h: h),
+                    radius: 20.5,
+                    negativeDirection: true,
+                    resolution: resolution)
     }
 
     /// Returns an Array of ``CGPoint``s representing the inner top area of the flange from point ``H1``
@@ -178,7 +92,12 @@ extension Flange {
     /// This area consists of an arc with a radius of 12.0 mm and the center at ``RIm``
     /// The returned array contains the final point ``S`` but not the point ``H1``.
     private func flangeInnerTop(resolution: Double) -> [CGPoint] {
-        Sampler.arc(from: H1, to: S, center: RIm, radius: 12.0, negativeDirection: true, resolution: resolution)
+        Sampler.arc(from: EN13715.H1(h: h),
+                    to: EN13715.S(h: h, e: e),
+                    center: EN13715.RIm(h: h),
+                    radius: 12.0,
+                    negativeDirection: true,
+                    resolution: resolution)
     }
 
     /// Returns an Array of ``CGPoint``s representing the outer top area of the flange from point ``S``
@@ -187,7 +106,12 @@ extension Flange {
     /// This area consists of an arc with a radius of 12.0 mm and the center at ``REm``
     /// The returned array contains the final point ``G1`` but not the point ``S``.
     private func flangeOuterTop(resolution: Double) -> [CGPoint] {
-        Sampler.arc(from: S, to: G1, center: REm, radius: 12.0, negativeDirection: true, resolution: resolution)
+        Sampler.arc(from: EN13715.S(h: h, e: e),
+                    to: EN13715.G1(h: h, e: e),
+                    center: EN13715.REm(h: h, e: e),
+                    radius: 12.0,
+                    negativeDirection: true,
+                    resolution: resolution)
     }
 
 
@@ -197,7 +121,12 @@ extension Flange {
     /// This area consists of an arc with a radius of ``Rfa`` and the center at ``Fm``
     /// The returned array contains the final point ``F1`` but not the point ``G1``.
     private func flangeOuter(resolution: Double) -> [CGPoint] {
-        Sampler.arc(from: G1, to: F1, center: Fm, radius: Rfa, negativeDirection: true, resolution: resolution)
+        Sampler.arc(from: EN13715.G1(h: h, e: e),
+                    to: EN13715.F1(h: h, e: e),
+                    center: EN13715.Fm(h: h, e: e),
+                    radius: EN13715.Rfa(h: h),
+                    negativeDirection: true,
+                    resolution: resolution)
     }
 
     /// Returns an Array of ``CGPoint``s representing the straight part of the flange from point ``F1``
@@ -206,7 +135,9 @@ extension Flange {
     /// This area consists of a straight line. The angle of this line is also known as *flange angle*.
     /// The returned array contains the final point ``E1`` but not the point ``F1``.
     private func flange(resolution: Double) -> [CGPoint] {
-        Sampler.straightLine(from: F1, to: E1, resolution: resolution)
+        Sampler.straightLine(from: EN13715.F1(h: h, e: e),
+                             to: EN13715.E1(e: e),
+                             resolution: resolution)
     }
 
     /// Returns an Array of ``CGPoint``s representing the  flange radius from point ``E1``
@@ -215,6 +146,10 @@ extension Flange {
     /// This area consists of an arc with a radius of 13 mm and a center at ``Dm``.
     /// The returned array contains the final point ``D1`` but not the point ``E1``.
     private func flangeRadius(resolution: Double) -> [CGPoint] {
-        Sampler.arc(from: E1, to: D1, center: Dm, radius: 13.0, resolution: resolution)
+        Sampler.arc(from: EN13715.E1(e: e),
+                    to: EN13715.D1(e: e),
+                    center: EN13715.Dm(e: e),
+                    radius: 13.0,
+                    resolution: resolution)
     }
 }
