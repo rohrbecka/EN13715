@@ -26,13 +26,13 @@ the project definition according EN 13715:
 
 ```swift
 // Create a profile EN 13715 — 1/40 / h30 / e32,5 / 15% for a wheel with 135 mm width. 
-let oneTo40 = EN13715.oneTo40(h: 30.0, e: 32.5, 15, wheelWidth: 135)
+let oneTo40 = try? EN13715.profile(.oneTo40, h: 30.0, e: 32.5, 15, wheelWidth: 135)
 
 // Create a profile EN 13715 — S1002 / h28 / e30,5 / 10% for a wheel with 140 mm width. 
-let s1002 = EN13715.s1002(h: 28.0, e: 30.5, 10, wheelWidth: 140)
+let s1002 = try? EN13715.profile(.s1002, h: 30, e: 30, 15)
 
 // Create a profile EN 13715 — EPS / h31 / e32 / 6,7% for a wheel with 135 mm width. 
-let eps = EN13715.eps(h: 31.0, e: 32, 6.7, wheelWidth: 135)
+let eps = try? EN13715.profile(.eps, h: 31.0, e: 32, 6.7, wheelWidth: 135)
 ```
 
 After creating the profile, the x/y-coordinate versions can be retreived:
@@ -54,7 +54,4 @@ in lateral direction of the profile and the z-axis in vertical direction. All me
 in Millimeters.
 
 This package uses a co-ordinate system, which has the same origin, but where there is an x-axis
-and a y-axis, because this matches better the typical usage in software.
-
-The following picture shows the co-ordinate systems.
-  
+and a y-axis, because this matches better the typical usage in software.  
