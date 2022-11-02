@@ -44,8 +44,8 @@ extension Flange {
     /// point ``D1``. The arra  includes the point ``D1``.
     ///
     /// The returned array contains all characteristic points defined in the standard. Thus, the final resolution
-    /// of the data is neither fixed nor equidistant. Nevertheless, the requested resolution is respected and there are no
-    /// two niehgboring points returned, having a larger distance between each other than defined by ``resolution``.
+    /// of the data is neither fixed nor equidistant. Nevertheless, the requested resolution is respected and there are
+    /// no two niehgboring points returned, having a larger distance between each other than defined by ``resolution``.
     ///
     /// Distance is measured along the arc or the straight line.
     ///

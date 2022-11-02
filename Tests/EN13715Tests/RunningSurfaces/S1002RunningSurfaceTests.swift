@@ -15,7 +15,7 @@ final class S1002Tests: XCTestCase {
     let minWidthFlange = S1002RunningSurface(e: 28.5, slopePercent: 6.7, wheelWidth: 135)
 
 
-    func testD1T1(){
+    func testD1T1() {
         XCTAssertEqual(maxWidthFlange.D1T1[0], CGPoint(x: -34.5, y: 6.432))
         XCTAssertEqual(S1002_e31_4.D1T1[0], CGPoint(x: -35.6, y: 6.432))
         XCTAssertEqual(minWidthFlange.D1T1[0], CGPoint(x: -38.5, y: 6.432))
@@ -32,7 +32,7 @@ final class S1002Tests: XCTestCase {
     }
 
 
-    func testD0B1(){
+    func testD0B1() {
         XCTAssertEqual(maxWidthFlange.D0B1[0], CGPoint(x: 0.5, y: -0.016))
         XCTAssertEqual(S1002_e31_4.D0B1[0], CGPoint(x: 0.5, y: -0.016))
         XCTAssertEqual(minWidthFlange.D0B1[0], CGPoint(x: 0.5, y: -0.016))

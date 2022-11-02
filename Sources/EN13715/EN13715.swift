@@ -35,7 +35,7 @@ public enum EN13715 {
     }
 
 
-    
+
 // MARK: - Valid Ranges
     /// The range of valid flange heights in Millimeters.
     public static let validHRange = 28.0...32.0
@@ -54,7 +54,7 @@ extension EN13715 {
                             wheelWidth: Double,
                             slopePercent: Double) -> CGPoint {
         CGPoint(x: wheelWidth - 70.0 - 5.0,
-                y: B.y - slopePercent/100.0 * (wheelWidth - 70 - B.x - 5))
+                y: B.y - slopePercent/100.0 * (wheelWidth - 70 - B.x - 5.0))
     }
 
 

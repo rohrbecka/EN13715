@@ -11,7 +11,7 @@ import XCTest
 final class EPSTransitionZoneTests: XCTestCase {
 
     func test() {
-        let sut = EPSTransitionZone.values(e: 28.5)
+        _ = EPSTransitionZone.values(e: 28.5)
     }
 
 }

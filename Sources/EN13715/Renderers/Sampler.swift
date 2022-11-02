@@ -9,10 +9,12 @@ import Foundation
 
 internal enum Sampler {
 
-    /// Returns an Array of points on a straight line from `start` to `end` without the `start` point, but including the `end`.
+    /// Returns an Array of points on a straight line from `start` to `end` without the `start` point, but
+    /// including the `end`.
     ///
-    /// The array is returned without `start`, but including `end` and the guarantee, that no two neighboring points have a larger
-    /// distance than `resolution`. This includes the distance from `start` to the first element of the result array.
+    /// The array is returned without `start`, but including `end` and the guarantee, that no two neighbouring points
+    /// have a larger distance than `resolution`. This includes the distance from `start` to the first element
+    /// of the result array.
     ///
     /// - Parameters:
     ///   - start: The starting point, which will *not* be included in the returned `Array`.
@@ -64,10 +66,10 @@ internal enum Sampler {
             ? (startAngleRad - endAngleRad) * radius
             : (endAngleRad - startAngleRad) * radius
         if arcLength < 0 {
-            arcLength = arcLength + 2 * Double.pi * radius
+            arcLength += 2 * Double.pi * radius
         }
         arcLength = arcLength.truncatingRemainder(dividingBy: 2*Double.pi * radius)
-        let numberOfPoints = Int (arcLength / resolution) + 1
+        let numberOfPoints = Int(arcLength / resolution) + 1
         let result = (0..<numberOfPoints)
             .map {
                 if $0 == numberOfPoints-1 {
@@ -146,18 +148,9 @@ internal enum Sampler {
             let angle = atan(dy / dx)
             if dx > 0 {
                 return angle
-            } else{
+            } else {
                 return angle + Double.pi
             }
         }
-    }
-}
-
-
-
-extension CGPoint: Equatable {
-    /// Returns `true` if the two points are at the same position.
-    public static func ==(lhs: CGPoint, rhs: CGPoint) -> Bool {
-        lhs.x == rhs.x && lhs.y == rhs.y
     }
 }

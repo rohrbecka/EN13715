@@ -48,13 +48,13 @@ extension WheelProfile {
     ///   - e: The flange width in Millimeters.
     ///   - slopePercent: The gradient of the outer running surface area in %.
     internal func parameterString(h: Double, e: Double, _ slopePercent: Double) -> String {
-        "h\(h.formatted(doubleFormatter)) / e\(e.formatted(doubleFormatter)) / \(slopePercent.formatted(doubleFormatter)) %"
+        "h\(h.formatted(doubleFormat)) / e\(e.formatted(doubleFormat)) / \(slopePercent.formatted(doubleFormat)) %"
     }
 
 
     /// A formatter for formatting ``Double`` numbers with 0 or 1 fraction digit to match the display in the
     /// ``parameterString`` of the profile description according EN 13715.
-    private var doubleFormatter: FloatingPointFormatStyle<Double> {
+    private var doubleFormat: FloatingPointFormatStyle<Double> {
         FloatingPointFormatStyle.number.precision(.fractionLength(0...1))
     }
 }

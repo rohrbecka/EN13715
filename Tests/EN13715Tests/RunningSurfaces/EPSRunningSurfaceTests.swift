@@ -46,7 +46,7 @@ final class EPSTests: XCTestCase {
     func testA1() {
         XCTAssertEqual(maxWidthFlange.A1.x, 65)
         XCTAssertEqual(maxWidthFlange.A1.y, -5.947, accuracy: 0.000001)
-        XCTAssertEqual(minWidthFlange.A1, CGPoint(x: 60,y: -2.624))
+        XCTAssertEqual(minWidthFlange.A1, CGPoint(x: 60, y: -2.624))
     }
 
 

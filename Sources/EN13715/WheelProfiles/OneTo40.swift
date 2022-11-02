@@ -61,7 +61,7 @@ internal struct OneTo40: WheelProfile {
         profile(resolution: 0.5)
     }
 
-    
+
     public func profile(resolution: Double) -> [CGPoint] {
         return flange.profile(resolution: resolution)
         + runningSurface.profile(resolution: resolution)

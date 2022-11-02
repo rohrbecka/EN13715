@@ -38,29 +38,29 @@ final class FlangeTests: XCTestCase {
 
 // MARK: Profile shape
     func testProfileHeight() {
-        XCTAssertEqual(maxWidthFlange.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(minWidthFlange.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(maxWidthFlange28.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(minWidthFlange28.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(maxWidthFlange30.profile(resolution: 0.5).map{$0.y}.max()!, 30.0, accuracy: 0.2)
-        XCTAssertEqual(minWidthFlange30.profile(resolution: 0.5).map{$0.y}.max()!, 30.0, accuracy: 0.2)
-        XCTAssertEqual(maxWidthFlange32.profile(resolution: 0.5).map{$0.y}.max()!, 32.0, accuracy: 0.2)
-        XCTAssertEqual(minWidthFlange32.profile(resolution: 0.5).map{$0.y}.max()!, 32.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE32_5H28.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE31_5H28.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE30_5H28.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE29_5H28.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE28_5H28.profile(resolution: 0.5).map{$0.y}.max()!, 28.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE32_5H30.profile(resolution: 0.5).map{$0.y}.max()!, 30.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE31_5H30.profile(resolution: 0.5).map{$0.y}.max()!, 30.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE30_5H30.profile(resolution: 0.5).map{$0.y}.max()!, 30.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE29_5H30.profile(resolution: 0.5).map{$0.y}.max()!, 30.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE28_5H30.profile(resolution: 0.5).map{$0.y}.max()!, 30.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE32_5H32.profile(resolution: 0.5).map{$0.y}.max()!, 32.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE31_5H32.profile(resolution: 0.5).map{$0.y}.max()!, 32.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE30_5H32.profile(resolution: 0.5).map{$0.y}.max()!, 32.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE29_5H32.profile(resolution: 0.5).map{$0.y}.max()!, 32.0, accuracy: 0.2)
-        XCTAssertEqual(flangeE28_5H32.profile(resolution: 0.5).map{$0.y}.max()!, 32.0, accuracy: 0.2)
+        XCTAssertEqual(maxWidthFlange.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(minWidthFlange.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(maxWidthFlange28.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(minWidthFlange28.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(maxWidthFlange30.profile(resolution: 0.5).map {$0.y}.max()!, 30.0, accuracy: 0.2)
+        XCTAssertEqual(minWidthFlange30.profile(resolution: 0.5).map {$0.y}.max()!, 30.0, accuracy: 0.2)
+        XCTAssertEqual(maxWidthFlange32.profile(resolution: 0.5).map {$0.y}.max()!, 32.0, accuracy: 0.2)
+        XCTAssertEqual(minWidthFlange32.profile(resolution: 0.5).map {$0.y}.max()!, 32.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE32_5H28.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE31_5H28.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE30_5H28.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE29_5H28.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE28_5H28.profile(resolution: 0.5).map {$0.y}.max()!, 28.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE32_5H30.profile(resolution: 0.5).map {$0.y}.max()!, 30.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE31_5H30.profile(resolution: 0.5).map {$0.y}.max()!, 30.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE30_5H30.profile(resolution: 0.5).map {$0.y}.max()!, 30.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE29_5H30.profile(resolution: 0.5).map {$0.y}.max()!, 30.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE28_5H30.profile(resolution: 0.5).map {$0.y}.max()!, 30.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE32_5H32.profile(resolution: 0.5).map {$0.y}.max()!, 32.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE31_5H32.profile(resolution: 0.5).map {$0.y}.max()!, 32.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE30_5H32.profile(resolution: 0.5).map {$0.y}.max()!, 32.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE29_5H32.profile(resolution: 0.5).map {$0.y}.max()!, 32.0, accuracy: 0.2)
+        XCTAssertEqual(flangeE28_5H32.profile(resolution: 0.5).map {$0.y}.max()!, 32.0, accuracy: 0.2)
     }
 
 
@@ -138,7 +138,7 @@ extension Array where Element == CGPoint {
     var distances: [Double] {
         self.dropLast().enumerated().map {index, point in
             let secondPoint = self[index+1]
-            return Array<CGPoint>.distance(from: point, to: secondPoint)
+            return [CGPoint].distance(from: point, to: secondPoint)
         }
     }
 

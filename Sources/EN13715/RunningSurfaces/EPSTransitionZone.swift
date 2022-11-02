@@ -4,6 +4,7 @@
 //
 //  Created by André Rohrbeck on 07.08.22.
 //
+// swiftlint:disable type_body_length
 
 import Foundation
 
@@ -321,7 +322,7 @@ internal enum EPSTransitionZone {
 
 
 /// One column of Table D.1 in EN 13715:2020.
-fileprivate struct EPSTransitionZoneSample {
+private struct EPSTransitionZoneSample {
     /// The x co-ordinate of the C1b point where the transition zone is ending.
     public let C1bx = -26.0
 

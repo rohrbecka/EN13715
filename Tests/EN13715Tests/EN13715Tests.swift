@@ -106,7 +106,7 @@ extension EN13715Tests {
         XCTAssertEqual(EN13715.B1a.y, -0.875, accuracy: 0.0000001)
     }
 
-    
+
     func testC1a() {
         XCTAssertEqual(EN13715.C1a(e: 32.5).x, -26.0, accuracy: 0.0000001)
         XCTAssertEqual(EN13715.C1a(e: 28.5).x, -30.0, accuracy: 0.0000001)
@@ -329,8 +329,16 @@ extension EN13715Tests {
             formatter.minimumFractionDigits = 3
             formatter.maximumFractionDigits = 3
             for point in points {
-                print("\(formatter.string(from: NSNumber(value: point.x)) ?? "")\t\(formatter.string(from: NSNumber(value: point.y)) ?? "")")
+                print("\(formatter.string(from: point.x))\t\(formatter.string(from: point.y))")
             }
         }
+    }
+}
+
+
+
+extension NumberFormatter {
+    fileprivate func string(from double: Double) -> String {
+        string(from: NSNumber(value: double)) ?? ""
     }
 }
